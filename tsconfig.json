@@ -1,0 +1,32 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "allowJs": true,
+        "jsx": "react",
+        "moduleResolution": "node",
+        "outDir": "./dist",
+        "strict": true,
+        "esModuleInterop": true,
+        "paths": {
+            "@/*": [
+                "./src/*"
+            ]
+        },
+    },
+    "include": [
+        "**/*.ts",
+        "**/*.tsx",
+    ],
+    "exclude": [
+        "node_modules",
+        "build",
+        "scripts",
+        "acceptance-tests",
+        "webpack",
+        "jest",
+        "src/setupTests.ts"
+    ],
+    "types": [
+        "typePatches"
+    ]
+}
