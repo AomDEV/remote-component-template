@@ -3,6 +3,8 @@ const webpack = require("webpack");
 const WebpackAssetsManifest = require("webpack-assets-manifest");
 const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
 const remoteComponentConfig = require("./remote-component.config").resolve;
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 const externals = Object.keys(remoteComponentConfig).reduce(
     (obj, key) => ({ ...obj, [key]: key }),
@@ -19,6 +21,9 @@ module.exports = {
     },
     resolve: {
         extensions: [".ts", ".tsx"],
+        fallback: {
+            "@": path.resolve("./src")
+        },
     },
     devServer: {
         contentBase: path.join(__dirname, "public"), // Serve files from this directory
@@ -34,7 +39,9 @@ module.exports = {
             openAnalyzer: false,
             reportFilename: "webpack-bundle-analyzer-report.html"
         }),
-        new WebpackAssetsManifest()
+        new WebpackAssetsManifest(),
+        new TsconfigPathsPlugin({}),
+        new NodePolyfillPlugin()
     ],
     module: {
         rules: [

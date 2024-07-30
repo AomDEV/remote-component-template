@@ -1,7 +1,9 @@
-const HtmlWebpackPlugin = require("html-webpack-plugin");
 const path = require("path");
 const webpack = require("webpack");
 const config = require("./webpack.config");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
+const NodePolyfillPlugin = require("node-polyfill-webpack-plugin");
 
 module.exports = {
     entry: "./src/dev-server.tsx",
@@ -12,7 +14,9 @@ module.exports = {
             template: "./public/index.html"
         }),
         new webpack.EvalSourceMapDevToolPlugin({}),
-        new webpack.HotModuleReplacementPlugin()
+        new webpack.HotModuleReplacementPlugin(),
+        new TsconfigPathsPlugin({}),
+        new NodePolyfillPlugin()
     ],
     module: config.module,
     devServer: {
@@ -32,6 +36,9 @@ module.exports = {
             "remote-component.config.js": path.resolve("./remote-component.config.js")
         },
         extensions: ['.ts', '.tsx', '.js'],
+        fallback: {
+            "@": path.resolve("./src")
+        },
     },
     externals: {
         "@paciolan/remote-component": require("./node_modules/@paciolan/remote-component")
